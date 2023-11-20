@@ -1,4 +1,4 @@
-const { selectAllEndpoints, selectTopics, selectArticleById } = require("../models/get.models"); //Import models
+const { selectAllEndpoints, selectTopics} = require("../models/get.models"); //Import models
 
 exports.getAllEndpoints = (req, res, next) => {
    selectAllEndpoints()
