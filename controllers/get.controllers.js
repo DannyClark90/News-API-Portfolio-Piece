@@ -16,12 +16,12 @@ exports.getTopics = (req, res, next) => {
    .catch(next)
 };
 
-exports.getArticleById = (req, res, next) => {
-   console.log("IN CONTROLLER!!!!!!");
-   const { article_id } = req.params;
-    selectArticleById( article_id )
-    .then((article) => {
-      res.status(200).send({ article });
-    })
-    .catch(next)
-};
+// exports.getArticleById = (req, res, next) => {
+//    console.log("IN CONTROLLER!!!!!!");
+//    const { article_id } = req.params;
+//     selectArticleById( article_id )
+//     .then((article) => {
+//       res.status(200).send({ article });
+//     })
+//     .catch(next)
+// };

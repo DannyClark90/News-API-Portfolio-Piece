@@ -14,6 +14,6 @@ exports.selectTopics = () => {
     .then(({ rows }) => {return rows}); // Query result reurned on key of rows. 
 };
 
-exports.selectArticleById = () => {
-    console.log("IN MODEL!!!!!!");
-};
+// exports.selectArticleById = () => {
+//     console.log("IN MODEL!!!!!!");
+// };

@@ -7,7 +7,7 @@ app.get("/api", getAllEndpoints); // Sends parsed endpoints.JSON
 
 app.get("/api/topics", getTopics); // Topics endpoint (gets all topics).
 
-app.get("/api/articles/:article_id", getArticleById)
+// app.get("/api/articles/:article_id", getArticleById)
 
 app.use(handleServerErrors)
 
