@@ -46,7 +46,7 @@ describe("/api/topics", () => {
   });
 });
 
-describe("/api/articles/:article_id",() => {
-  return request(app)
-  .get()
-});
+// describe("/api/articles/:article_id",() => {
+//   return request(app)
+//   .get()
+// });
