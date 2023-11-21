@@ -5,6 +5,8 @@ const { handle404Errors, handleServerErrors, handleCustomErrors, handlePsqlError
 
 app.get("/api", getAllEndpoints); // Sends parsed endpoints.JSON
 
+app.get("/api", getAllEndpoints); // Sends parsed endpoints.JSON
+
 app.get("/api/topics", getTopics); // Topics endpoint (gets all topics).
 
 app.get("/api/articles/:article_id", getArticleById);

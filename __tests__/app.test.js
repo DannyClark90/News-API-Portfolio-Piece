@@ -8,6 +8,7 @@ const {
   articleData,
   commentData,
 } = require("../db/data/test-data/index"); //Import test data to pass into seed function.
+const endPoints = require("../endpoints.json")
 
 beforeEach(() => {
   return seed({ topicData, userData, articleData, commentData });
@@ -16,6 +17,29 @@ beforeEach(() => {
 afterAll(() => {
   return db.end();
 }); //After each test end connection to db.
+
+describe("/api",() => {
+  // Happy Path
+  it("200: Should return an object describing all of the available endpoints.", () => {
+    return request(app) // send request to app.
+      .get("/api") //GET req to endpoint.
+      .expect(200)
+      .then(({ body }) => {
+        const { allValidEndpoints } = body // Deconstruct allValidEndpoints 
+        expect(allValidEndpoints).toEqual(endPoints) // check recieved to match endpoints.json contents.
+      })
+  })
+});
+
+   // Sad Path Test
+   it("404: Should return 'Path Not Found' error message if incorrect endpoint is requested (eg. typo)", () => {
+    return request(app) // send request to app.
+      .get("/ami") //GET req to miss spelt endpoint.
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Path Not Found");
+      });
+  });
 
 describe("/api/topics", () => {
   // Happy path test:
