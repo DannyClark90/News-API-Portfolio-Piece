@@ -17,6 +17,10 @@ exports.getTopics = (req, res, next) => {
 };
 
 exports.getArticles = (req, res, next) => {
-   console.log("IN CONTROLLER!!!!");
-   // selectArticles()
+   selectArticles()
+   .then((articles) => {
+      console.log(articles);
+      res.status(200).send({articles})
+   })
+   .catch(next)
 };
