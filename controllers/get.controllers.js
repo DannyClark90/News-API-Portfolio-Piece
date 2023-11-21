@@ -1,4 +1,4 @@
-const { selectAllEndpoints, selectTopics} = require("../models/get.models"); //Import models
+const { selectAllEndpoints, selectTopics, selectArticleById } = require("../models/get.models"); //Import models
 
 exports.getAllEndpoints = (req, res, next) => {
    selectAllEndpoints()
@@ -14,4 +14,13 @@ exports.getTopics = (req, res, next) => {
        res.status(200).send({topics})
    })
    .catch(next)
+};
+
+exports.getArticleById = (req, res, next) => {
+   const { article_id } = req.params;
+    selectArticleById( article_id )
+    .then((article) => {
+      res.status(200).send({ article });
+    })
+    .catch(next)
 };
