@@ -24,7 +24,5 @@ exports.selectArticles = () => {
         GROUP BY articles.article_id
         ORDER BY created_at DESC;`
     )
-    .then(({ rows }) => { 
-    
-    }); // Query result reurned on key of rows. 
+    .then(({ rows }) => { return rows }); // Query result reurned on key of rows. 
 };

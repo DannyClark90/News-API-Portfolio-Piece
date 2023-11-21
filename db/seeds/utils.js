@@ -20,7 +20,3 @@ exports.formatComments = (comments, idLookup) => {
     };
   });
 };
-
-exports.changeArticleCountKey = (article) => {
-  article.comment_count = article.count
-};
