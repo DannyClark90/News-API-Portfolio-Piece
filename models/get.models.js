@@ -13,3 +13,11 @@ exports.selectTopics = () => {
     ) // Query db.
     .then(({ rows }) => {return rows}); // Query result reurned on key of rows. 
 };
+
+exports.selectArticles = () => {
+    console.log("IN MODEL!!!!");
+    // return db.query(
+    //     `SELECT * FROM topics;`
+    // ) // Query db.
+    // .then(({ rows }) => {return rows}); // Query result reurned on key of rows. 
+};

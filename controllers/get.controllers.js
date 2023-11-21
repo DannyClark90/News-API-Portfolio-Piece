@@ -1,4 +1,4 @@
-const { selectAllEndpoints, selectTopics} = require("../models/get.models"); //Import models
+const { selectAllEndpoints, selectTopics, selectArticles} = require("../models/get.models"); //Import models
 
 exports.getAllEndpoints = (req, res, next) => {
    selectAllEndpoints()
@@ -14,4 +14,9 @@ exports.getTopics = (req, res, next) => {
        res.status(200).send({topics})
    })
    .catch(next)
+};
+
+exports.getArticles = (req, res, next) => {
+   console.log("IN CONTROLLER!!!!");
+   // selectArticles()
 };
