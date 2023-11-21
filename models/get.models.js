@@ -14,6 +14,14 @@ exports.selectTopics = () => {
     .then(({ rows }) => {return rows}); // Query result reurned on key of rows. 
 };
 
-// exports.selectArticleById = () => {
-//     console.log("IN MODEL!!!!!!");
-// };
+exports.selectArticleById = (article_id) => {
+    return db.query(
+        `SELECT * FROM articles WHERE article_id = $1;`, [article_id]
+    )
+    .then((result) => {
+        if(result.rowCount === 0){
+          return Promise.reject({ status: 404, msg: 'Inexistent Article'})
+        }
+        else{return result.rows[0]}
+    })
+};
