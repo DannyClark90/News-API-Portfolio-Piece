@@ -70,28 +70,40 @@ describe("/api/topics", () => {
   });
 });
 
-// describe("/api/articles",() => {
-//     // Happy path test:
-//     it.only("200: Should return an array of all articles with correct properties.", () => {
-//       return request(app) // send request to app.
-//         .get("/api/articles") //GET req to endpoint.
-//         .expect(200)
-//         .then(({ body }) => {
-//           const { articles } = body; //deconstruct articles from body.
-//           expect(articles).toHaveLength(5); //length check
-//           articles.forEach((article) => {
-//             expect(article).toMatchObject({
-//               article_id: expect.any(Number),
-//               title: expect.any(String),
-//               topic: expect.any(String),
-//               author: expect.any(String),
-//               created_at: expect.any(String),
-//               votes: expect.any(Number),
-//               article_img_url: expect.any(String),
-//               comment_count: expect.any(Number)
-//             });
-//           }); //Object property check.
-//         });
-//     });
+describe("/api/articles",() => {
+    // Happy path tests:
+    it("200: Should return an array of all articles with correct properties.", () => {
+      return request(app) // send request to app.
+        .get("/api/articles") //GET req to endpoint.
+        .expect(200)
+        .then(({ body }) => {
+          const { articles } = body; //deconstruct articles from body.
+          expect(articles).toHaveLength(5); //length check
+          articles.forEach((article) => {
+            expect(article).toMatchObject({
+              article_id: expect.any(Number),
+              title: expect.any(String),
+              topic: expect.any(String),
+              author: expect.any(String),
+              created_at: expect.any(String),
+              votes: expect.any(Number),
+              article_img_url: expect.any(String),
+              comment_count: expect.any(String)
+            });
+          }); //Object property check.
+        });
+    });
 
-// });
+    it("Should sort date in descending order by default", () => {
+      return request(app)
+      .get('/api/articles')
+      .expect(200)
+      .then(({body}) => {
+        const { articles } = body
+          const orderedDates = articles.map((article) => {
+              return article.created_at
+          })
+          expect(orderedDates).toBeSorted({ descending: true })
+      })
+  });
+});
