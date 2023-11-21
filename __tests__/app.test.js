@@ -78,7 +78,7 @@ describe("/api/articles",() => {
         .expect(200)
         .then(({ body }) => {
           const { articles } = body; //deconstruct articles from body.
-          expect(articles).toHaveLength(5); //length check
+          expect(articles).toHaveLength(13); //length check
           articles.forEach((article) => {
             expect(article).toMatchObject({
               article_id: expect.any(Number),
