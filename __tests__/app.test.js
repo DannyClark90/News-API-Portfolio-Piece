@@ -28,8 +28,7 @@ describe("/api",() => {
         const { allValidEndpoints } = body // Deconstruct allValidEndpoints 
         expect(allValidEndpoints).toEqual(endPoints) // check recieved to match endpoints.json contents.
       })
-  })
-});
+})
 
    // Sad Path Test
    it("404: Should return 'Path Not Found' error message if incorrect endpoint is requested (eg. typo)", () => {
@@ -39,7 +38,8 @@ describe("/api",() => {
       .then(({ body }) => {
         expect(body.msg).toBe("Path Not Found");
       });
-  });
+  })
+});
 
 describe("/api/topics", () => {
   // Happy path test:
@@ -68,6 +68,44 @@ describe("/api/topics", () => {
         expect(body.msg).toBe("Path Not Found");
       });
   });
+});
+
+describe("/api/articles",() => {
+    // Happy path tests:
+    it("200: Should return an array of all articles with correct properties.", () => {
+      return request(app) // send request to app.
+        .get("/api/articles") //GET req to endpoint.
+        .expect(200)
+        .then(({ body }) => {
+          const { articles } = body; //deconstruct articles from body.
+          expect(articles).toHaveLength(13); //length check
+          articles.forEach((article) => {
+            expect(article).toMatchObject({
+              article_id: expect.any(Number),
+              title: expect.any(String),
+              topic: expect.any(String),
+              author: expect.any(String),
+              created_at: expect.any(String),
+              votes: expect.any(Number),
+              article_img_url: expect.any(String),
+              comment_count: expect.any(String)
+            });
+          }); //Object property check.
+        });
+    });
+
+    it("Should sort date in descending order by default", () => {
+      return request(app)
+      .get('/api/articles')
+      .expect(200)
+      .then(({body}) => {
+        const { articles } = body
+          const orderedDates = articles.map((article) => {
+              return article.created_at
+          })
+          expect(orderedDates).toBeSorted({ descending: true })
+      })
+    });
 });
 
 describe("/api/articles/:article_id",() => {
