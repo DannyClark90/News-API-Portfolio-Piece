@@ -28,7 +28,7 @@ describe("/api",() => {
         const { allValidEndpoints } = body // Deconstruct allValidEndpoints 
         expect(allValidEndpoints).toEqual(endPoints) // check recieved to match endpoints.json contents.
       })
-  })
+})
 
    // Sad Path Test
    it("404: Should return 'Path Not Found' error message if incorrect endpoint is requested (eg. typo)", () => {
@@ -105,5 +105,44 @@ describe("/api/articles",() => {
           })
           expect(orderedDates).toBeSorted({ descending: true })
       })
+    });
+});
+
+describe("/api/articles/:article_id",() => {
+  it('200 sends a single article with the correct properties', () => {
+    return request(app)
+    .get('/api/articles/1')
+    .expect(200)
+    .then(({ body }) => {
+        const { article } = body
+          expect(article).toMatchObject({
+          article_id: expect.any(Number),
+          title: expect.any(String),
+          topic: expect.any(String),
+          author: expect.any(String),
+          body: expect.any(String),
+          created_at: expect.any(String),
+          votes: expect.any(Number),
+          article_img_url: expect.any(String)
+        })
+    });
+  });
+
+  it("400: responds with an 'Bad Request' error message when given an invalid id", () => {
+    return request(app)
+    .get('/api/articles/one')
+    .expect(400)
+    .then( ({ body }) => {
+      expect(body.msg).toBe("Bad Request")
+    });
+  });
+
+  it("404: sends an 'Inexistent Article' error message when given a valid but non-existent id'", () => {
+    return request(app)
+    .get('/api/articles/6000')
+    .expect(404)
+    .then(({ body }) => {
+      expect(body.msg).toBe("Inexistent Article")
+    })
   });
 });
