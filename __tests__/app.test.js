@@ -147,7 +147,7 @@ describe("/api/articles/:article_id",() => {
   });
 });
 
-describe.only("/api/articles/:article_id/comments",() => {
+describe("/api/articles/:article_id/comments",() => {
   // Happy path test. 
   it("200: Returns an array of all comments for specified article.", () => {
     return request(app)
