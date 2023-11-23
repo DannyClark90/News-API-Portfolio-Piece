@@ -18,7 +18,7 @@ afterAll(() => {
   return db.end();
 }); //After each test end connection to db.
 
-describe("/api",() => {
+describe("GET /api",() => {
   // Happy Path
   it("200: Should return an object describing all of the available endpoints.", () => {
     return request(app) // send request to app.
@@ -41,7 +41,7 @@ describe("/api",() => {
   })
 });
 
-describe("/api/topics", () => {
+describe("GET /api/topics", () => {
   // Happy path test:
   it("200: Should return an array of all topics with correct properties.", () => {
     return request(app) // send request to app.
@@ -70,7 +70,7 @@ describe("/api/topics", () => {
   });
 });
 
-describe("/api/articles",() => {
+describe("GET /api/articles",() => {
     // Happy path tests:
     it("200: Should return an array of all articles with correct properties.", () => {
       return request(app) // send request to app.
@@ -108,7 +108,7 @@ describe("/api/articles",() => {
     });
 });
 
-describe("/api/articles/:article_id",() => {
+describe("GET /api/articles/:article_id",() => {
   it('200 sends a single article with the correct properties', () => {
     return request(app)
     .get('/api/articles/1')
@@ -145,4 +145,42 @@ describe("/api/articles/:article_id",() => {
       expect(body.msg).toBe("Inexistent Article")
     })
   });
+});
+
+describe("POST /api/articles/:article_id/comments",() => {
+  it("201: returns posted comment when provided one by post request.", () => {
+    const commentToPost = {
+      author : "butter_bridge",
+      body: "Maybe, like a cat you've seen something minute on the wall."
+    }
+    return request(app)
+    .post("/api/articles/11/comments")
+    .send(commentToPost)
+    .expect(201)
+    .then(({ body }) => {
+      const { postedComment } = body
+      expect(postedComment).toMatchObject(
+        {
+          comment_id: 19,
+          author: "butter_bridge",
+          body: "Maybe, like a cat you've seen something minute on the wall."
+        }
+      )
+    })
+  });
+
+  // it.only("400: responds with a 'Bad Request' error message when given an invalid data type or inexistent author.", () => {
+  //   const commentToPost = {
+  //     author: "butter_bridge",
+  //     body: 60000
+  //   }
+  //   return request(app)
+  //   .post("/api/articles/11/comments")
+  //   .send(commentToPost)
+  //   .expect(400)
+  //   .then( ({ body }) => {
+  //   expect(body.msg).toBe("Bad Request")
+  //   });
+  // });
+
 });
