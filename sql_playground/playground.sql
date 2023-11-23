@@ -6,10 +6,7 @@
 -- users
 -- topics
 
-INSERT INTO comments
-(body, article_id, author)
-VALUES
-('Maybe, like a cat you''ve seen something minute on the wall.', 
-11, 
-'butter_bridge')
+UPDATE articles
+SET votes = votes + 5
+WHERE article_id = 2
 RETURNING *;

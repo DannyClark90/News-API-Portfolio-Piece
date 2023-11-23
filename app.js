@@ -19,7 +19,7 @@ app.get("/api/articles/:article_id/comments", getArticleComments) // Returns all
 
 app.post("/api/articles/:article_id/comments", postArticleComment) // Posts a comment to article matching the specified  article_id
 
-app.patch("/api/articles/:article_id", patchArticle)
+app.patch("/api/articles/:article_id", patchArticle) // Updates the specified article.
 
 app.use(handlePsqlErrors);
 app.use(handleCustomErrors);

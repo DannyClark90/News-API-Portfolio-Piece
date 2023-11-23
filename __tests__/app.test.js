@@ -262,3 +262,67 @@ describe("POST /api/articles/:article_id/comments",() => {
     });
   });
 });
+
+describe("PATCH /api/articles/:article_id",() => {
+  it("Should icrement or decrement the article votes by the given amount and respond with the updated aricle.", () => {
+    const newVotes = { inc_votes : 5 } 
+    return request(app)
+    .patch("/api/articles/7")
+    .send(newVotes)
+    .expect(200)
+    .then(({ body }) => {
+      const { updatedArticle } = body
+      expect(updatedArticle).toMatchObject(
+        {
+          article_id: 7,
+          title: 'Z',
+          topic: 'mitch',
+          author: 'icellusedkars',
+          body: 'I was hungry.',
+          created_at: '2020-01-07T14:08:00.000Z',
+          votes: 5,
+          article_img_url: 'https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700'
+        }
+      )
+    })
+  });
+
+  // it("400: responds with a 'Bad Request' error message when given an inexistent article.", () => {
+  //   const newVotes = { inc_votes : 5 } 
+  //   return request(app)
+  //   .patch("/api/articles/5000")
+  //   .send(newVotes)
+  //   .expect(400)
+  //   .then(({ body }) => {
+  //   expect(body.msg).toBe("Bad Request")
+  //   });
+  // });
+
+  // it("400: responds with a 'Required value must not be null' error message when given an empty required input.", () => {
+  //   const commentToPost = {
+  //     author: "butter_bridge"
+  //   }
+  //   return request(app)
+  //   .post("/api/articles/11/comments")
+  //   .send(commentToPost)
+  //   .expect(400)
+  //   .then( ({ body }) => {
+  //   expect(body.msg).toBe("Required value must not be null")
+  //   });
+  // });
+
+  // it("400: sends a 'Bad Request' error message when given a valid but inexistent article", () => {
+  //   const commentToPost = {
+  //     author: "butter_bridge",
+  //     body: "Maybe, like a cat you've seen something minute on the wall."
+  //   }
+  //   return request(app)
+  //   .post("/api/articles/6000/comments")
+  //   .send(commentToPost)
+  //   .expect(400)
+  //   .then( ({ body }) => {
+  //   expect(body.msg).toBe("Bad Request")
+  //   });
+  // });
+  
+});
