@@ -148,7 +148,7 @@ describe("GET /api/articles/:article_id",() => {
 });
 
 describe("POST /api/articles/:article_id/comments",() => {
-  it("201: returns posted comment when provided one by post request.", () => {
+  it("201: returns the posted comment when provided one by post request.", () => {
     const commentToPost = {
       author : "butter_bridge",
       body: "Maybe, like a cat you've seen something minute on the wall."
@@ -169,18 +169,44 @@ describe("POST /api/articles/:article_id/comments",() => {
     })
   });
 
-  // it.only("400: responds with a 'Bad Request' error message when given an invalid data type or inexistent author.", () => {
-  //   const commentToPost = {
-  //     author: 5000,
-  //     body: 60000
-  //   }
-  //   return request(app)
-  //   .post("/api/articles/11/comments")
-  //   .send(commentToPost)
-  //   .expect(400)
-  //   .then( ({ body }) => {
-  //   expect(body.msg).toBe("Bad Request")
-  //   });
-  // });
+  it("400: responds with a 'Bad Request' error message when given an inexistent author.", () => {
+    const commentToPost = {
+      author: "Gerry",
+      body: "Maybe, like a cat you've seen something minute on the wall."
+    }
+    return request(app)
+    .post("/api/articles/11/comments")
+    .send(commentToPost)
+    .expect(400)
+    .then( ({ body }) => {
+    expect(body.msg).toBe("Bad Request")
+    });
+  });
 
+  it("400: responds with a 'Required value must not be null' error message when given an empty required input.", () => {
+    const commentToPost = {
+      author: "butter_bridge"
+    }
+    return request(app)
+    .post("/api/articles/11/comments")
+    .send(commentToPost)
+    .expect(400)
+    .then( ({ body }) => {
+    expect(body.msg).toBe("Required value must not be null")
+    });
+  });
+
+  it("400: sends a 'Bad Request' error message when given a valid but inexistent article", () => {
+    const commentToPost = {
+      author: "butter_bridge",
+      body: "Maybe, like a cat you've seen something minute on the wall."
+    }
+    return request(app)
+    .post("/api/articles/6000/comments")
+    .send(commentToPost)
+    .expect(400)
+    .then( ({ body }) => {
+    expect(body.msg).toBe("Bad Request")
+    });
+  });
 });

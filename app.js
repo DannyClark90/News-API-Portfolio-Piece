@@ -14,7 +14,7 @@ app.get("/api/articles", getArticles); // Articles endpoint (gets all articles).
 
 app.get("/api/articles/:article_id", getArticleById); // Gets articles matching the specified  article_id.
 
-app.post("/api/articles/:article_id/comments", postArticleComment) // ADD TO ENDPOINTS FILE!!!!!
+app.post("/api/articles/:article_id/comments", postArticleComment) // Posts a comment to article matching the specified  article_id
 
 app.use(handlePsqlErrors);
 app.use(handleCustomErrors);
