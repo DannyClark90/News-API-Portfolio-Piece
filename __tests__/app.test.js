@@ -262,3 +262,11 @@ describe("POST /api/articles/:article_id/comments",() => {
     });
   });
 });
+
+// describe("DELETE /api/comments/:comment_id",() => {
+//   it("204: Deletes the given comment by id", () => {
+//     return request(app)
+//     .delete("/api/comments/5")
+//     .expect(201)
+//   });
+// });
