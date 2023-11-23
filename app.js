@@ -2,6 +2,7 @@ const express = require("express"); // Import Express.
 const app = express(); // Create an instance of Expess library.
 const { getTopics, getAllEndpoints, getArticleById, getArticles, getArticleComments } = require("./controllers/get.controllers"); // Import controllers.
 const { postArticleComment } = require("./controllers/post.controllers") // Import post controllers.
+const { patchArticle } = require("./controllers/patch.controllers") // Import patch controllers.
 const { handle404Errors, handleServerErrors, handleCustomErrors, handlePsqlErrors } = require("./errors"); // Import error handlers.
 
 app.use(express.json()) // Imports json from express library (parses incoming requests)
@@ -17,6 +18,8 @@ app.get("/api/articles/:article_id", getArticleById); // Gets an article matchin
 app.get("/api/articles/:article_id/comments", getArticleComments) // Returns all comments for a specified article.
 
 app.post("/api/articles/:article_id/comments", postArticleComment) // Posts a comment to article matching the specified  article_id
+
+app.patch("/api/articles/:article_id", patchArticle)
 
 app.use(handlePsqlErrors);
 app.use(handleCustomErrors);
