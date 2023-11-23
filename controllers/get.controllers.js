@@ -1,4 +1,4 @@
-const { selectAllEndpoints, selectTopics, selectArticles, selectArticleById } = require("../models/get.models"); //Import models
+const { selectAllEndpoints, selectTopics, selectArticles, selectArticleById, selectArticleComments, checkArticleExists } = require("../models/get.models"); //Import models
 
 exports.getAllEndpoints = (req, res, next) => {
    selectAllEndpoints()
@@ -31,4 +31,20 @@ exports.getArticles = (req, res, next) => {
       res.status(200).send({ article });
     })
     .catch(next)
+};
+
+exports.getArticleComments = (req, res, next) => {
+   const { article_id } = req.params
+
+   checkArticleExists(article_id)
+   .then((articleExists) => {
+      if(articleExists)
+         {
+            selectArticleComments(article_id)
+            .then((article_comments) => {
+               res.status(200).send({article_comments})
+            })
+         }
+   })
+   .catch(next)
 };
