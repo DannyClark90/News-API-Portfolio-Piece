@@ -44,5 +44,19 @@
           "article_img_url": "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700"
         }
       }
+  },
+
+  "POST /api/articles/:article_id/comments": {
+    "description": "Insets a comment into the comments table & returns the posted comment",
+    "queries": [],
+    "exampleResponse": {
+      "postedComment": [
+        {
+          "comment_id": 19,
+          "author": "butter_bridge",
+          "body": "Maybe, like a cat you've seen something minute on the wall."
+        }
+      ]
+    }
   }
 }
