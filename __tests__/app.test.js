@@ -155,6 +155,7 @@ describe("/api/articles/:article_id/comments",() => {
     .expect(200)
     .then(({ body }) => {
       const { article_comments } = body
+      console.log(article_comments);
       expect(article_comments).toHaveLength(11)
       article_comments.forEach((comment) => {
         expect(comment).toMatchObject({
