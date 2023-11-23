@@ -8,7 +8,7 @@ const {
   articleData,
   commentData,
 } = require("../db/data/test-data/index"); //Import test data to pass into seed function.
-const endPoints = require("../endpoints.json")
+const endPoints = require("../endpoints.json");
 
 beforeEach(() => {
   return seed({ topicData, userData, articleData, commentData });
@@ -147,66 +147,55 @@ describe("GET /api/articles/:article_id",() => {
   });
 });
 
-describe("POST /api/articles/:article_id/comments",() => {
-  it("201: returns the posted comment when provided one by post request.", () => {
-    const commentToPost = {
-      author : "butter_bridge",
-      body: "Maybe, like a cat you've seen something minute on the wall."
-    }
+describe("/api/articles/:article_id/comments",() => {
+  // Happy path test. 
+  it("200: Returns an array of all comments for specified article.", () => {
     return request(app)
-    .post("/api/articles/11/comments")
-    .send(commentToPost)
-    .expect(201)
+    .get("/api/articles/1/comments")
+    .expect(200)
     .then(({ body }) => {
-      const { postedComment } = body
-      expect(postedComment).toMatchObject(
-        {
-          comment_id: 19,
-          author: "butter_bridge",
-          body: "Maybe, like a cat you've seen something minute on the wall."
-        }
-      )
+      const { article_comments } = body
+      console.log(article_comments);
+      expect(article_comments).toHaveLength(11)
+      article_comments.forEach((comment) => {
+        expect(comment).toMatchObject({
+        comment_id: expect.any(Number),
+        body: expect.any(String),
+        article_id: expect.any(Number),
+        author: expect.any(String),
+        votes: expect.any(Number),
+        created_at: expect.any(String)
+        })
+      }) 
     })
   });
 
-  it("400: responds with a 'Bad Request' error message when given an inexistent author.", () => {
-    const commentToPost = {
-      author: "Gerry",
-      body: "Maybe, like a cat you've seen something minute on the wall."
-    }
+  it("200: Returns an empty array if the requested article exists but has no comments.", () => {
     return request(app)
-    .post("/api/articles/11/comments")
-    .send(commentToPost)
+    .get("/api/articles/2/comments")
+    .expect(200)
+    .then(({ body }) => {
+      const { article_comments } = body
+      expect(article_comments).toEqual([])
+    })
+  });
+
+  it("400: responds with a 'Bad Request' error message when given an invalid article id", () => {
+    return request(app)
+    .get('/api/articles/one/comments')
     .expect(400)
     .then( ({ body }) => {
-    expect(body.msg).toBe("Bad Request")
+      expect(body.msg).toBe("Bad Request")
     });
   });
 
-  it("400: responds with a 'Required value must not be null' error message when given an empty required input.", () => {
-    const commentToPost = {
-      author: "butter_bridge"
-    }
+  it("404: sends an 'Inexistent Article' error message when given a valid but non-existent id'", () => {
     return request(app)
-    .post("/api/articles/11/comments")
-    .send(commentToPost)
-    .expect(400)
-    .then( ({ body }) => {
-    expect(body.msg).toBe("Required value must not be null")
-    });
+    .get('/api/articles/6000/comments')
+    .expect(404)
+    .then(({ body }) => {
+      expect(body.msg).toBe("Inexistent Article")
+    })
   });
-
-  it("400: sends a 'Bad Request' error message when given a valid but inexistent article", () => {
-    const commentToPost = {
-      author: "butter_bridge",
-      body: "Maybe, like a cat you've seen something minute on the wall."
-    }
-    return request(app)
-    .post("/api/articles/6000/comments")
-    .send(commentToPost)
-    .expect(400)
-    .then( ({ body }) => {
-    expect(body.msg).toBe("Bad Request")
-    });
-  });
+  
 });
