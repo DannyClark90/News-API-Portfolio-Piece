@@ -171,7 +171,7 @@ describe("POST /api/articles/:article_id/comments",() => {
 
   // it.only("400: responds with a 'Bad Request' error message when given an invalid data type or inexistent author.", () => {
   //   const commentToPost = {
-  //     author: "butter_bridge",
+  //     author: 5000,
   //     body: 60000
   //   }
   //   return request(app)
