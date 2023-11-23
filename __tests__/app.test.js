@@ -287,42 +287,25 @@ describe("PATCH /api/articles/:article_id",() => {
     })
   });
 
-  // it("400: responds with a 'Bad Request' error message when given an inexistent article.", () => {
-  //   const newVotes = { inc_votes : 5 } 
-  //   return request(app)
-  //   .patch("/api/articles/5000")
-  //   .send(newVotes)
-  //   .expect(400)
-  //   .then(({ body }) => {
-  //   expect(body.msg).toBe("Bad Request")
-  //   });
-  // });
+  it("404: responds with a 'Inexistent Article' error message when given a valid but inexistent article", () => {
+    const newVotes = { inc_votes : 5 } 
+    return request(app)
+    .patch("/api/articles/5000")
+    .send(newVotes)
+    .expect(404)
+    .then(({ body }) => {
+    expect(body.msg).toBe("Inexistent Article")
+    });
+  });
 
-  // it("400: responds with a 'Required value must not be null' error message when given an empty required input.", () => {
-  //   const commentToPost = {
-  //     author: "butter_bridge"
-  //   }
-  //   return request(app)
-  //   .post("/api/articles/11/comments")
-  //   .send(commentToPost)
-  //   .expect(400)
-  //   .then( ({ body }) => {
-  //   expect(body.msg).toBe("Required value must not be null")
-  //   });
-  // });
-
-  // it("400: sends a 'Bad Request' error message when given a valid but inexistent article", () => {
-  //   const commentToPost = {
-  //     author: "butter_bridge",
-  //     body: "Maybe, like a cat you've seen something minute on the wall."
-  //   }
-  //   return request(app)
-  //   .post("/api/articles/6000/comments")
-  //   .send(commentToPost)
-  //   .expect(400)
-  //   .then( ({ body }) => {
-  //   expect(body.msg).toBe("Bad Request")
-  //   });
-  // });
-  
+  it("400: responds with a 'Bad Request' error message when given a an invalid article id", () => {
+    const newVotes = { inc_votes : 5 } 
+    return request(app)
+    .patch("/api/articles/not-an-article")
+    .send(newVotes)
+    .expect(400)
+    .then(({ body }) => {
+    expect(body.msg).toBe("Bad Request")
+    });
+  });
 });
