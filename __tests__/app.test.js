@@ -309,25 +309,25 @@ describe("PATCH /api/articles/:article_id",() => {
     });
   });
 
-  // it.only("400: responds with a 'Bad Request' error message when given a value that is not a number", () => {
-  //   const newVotes = { inc_votes : "five" } 
-  //   return request(app)
-  //   .patch("/api/articles/7")
-  //   .send(newVotes)
-  //   .expect(400)
-  //   .then(({ body }) => {
-  //   expect(body.msg).toBe("Bad Request")
-  //   });
-  // });
+  it("400: responds with a 'Bad Request' error message when given a value that is not a number", () => {
+    const newVotes = { inc_votes : "five" } 
+    return request(app)
+    .patch("/api/articles/7")
+    .send(newVotes)
+    .expect(400)
+    .then(({ body }) => {
+    expect(body.msg).toBe("Bad Request")
+    });
+  });
 
-  // it("400: responds with a 'Required value must not be null' error message when given an empty required input.", () => { 
-  //   return request(app)
-  //   .patch("/api/articles/7")
-  //   .send({})
-  //   .expect(400)
-  //   .then( ({ body }) => {
-  //   expect(body.msg).toBe("Required value must not be null")
-  //   });
-  // });
+  it("400: responds with a 'Required value must not be null' error message when given an empty required input.", () => { 
+    return request(app)
+    .patch("/api/articles/7")
+    .send({})
+    .expect(400)
+    .then( ({ body }) => {
+    expect(body.msg).toBe("Required value must not be null")
+    });
+  });
   
 });
