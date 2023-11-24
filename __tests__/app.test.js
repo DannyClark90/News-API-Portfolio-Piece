@@ -271,7 +271,6 @@ describe("/api/users",() => {
         .expect(200)
         .then(({ body }) => {
           const { allUsers } = body; //deconstruct users from body.
-          console.log(allUsers);
           expect(allUsers).toHaveLength(4); //length check
           allUsers.forEach((user) => {
             expect(user).toMatchObject({
