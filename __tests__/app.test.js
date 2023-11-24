@@ -308,4 +308,15 @@ describe("PATCH /api/articles/:article_id",() => {
     expect(body.msg).toBe("Bad Request")
     });
   });
+
+  // it.only("400: responds with a 'Required value must not be null' error message when given an empty required input.", () => { 
+  //   return request(app)
+  //   .patch("/api/articles/7")
+  //   .send({})
+  //   .expect(400)
+  //   .then( ({ body }) => {
+  //   expect(body.msg).toBe("Required value must not be null")
+  //   });
+  // });
+  
 });
