@@ -106,6 +106,16 @@ describe("GET /api/articles",() => {
           expect(orderedDates).toBeSorted({ descending: true })
       })
     });
+
+    it("200: Should filter the articles by topic specified in the query.", () => {
+      return request(app) // send request to app.
+        .get("/api/articles?topic=cats") //GET req to endpoint.
+        .expect(200)
+        // .then(({ body }) => {
+        //   const { catArticles } = body; //deconstruct articles from body.
+        //   expect(catArticles).toHaveLength(1); //length check
+        // });
+    });
 });
 
 describe("GET /api/articles/:article_id",() => {
