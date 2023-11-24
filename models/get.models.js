@@ -82,3 +82,10 @@ exports.checkTopicExists = (topic) => {
         return true
     })
 };
+exports.selectAllUsers = () => {
+    return db.query(
+        `SELECT * FROM users`
+    )
+    .then(({ rows }) => {return rows})
+};
+

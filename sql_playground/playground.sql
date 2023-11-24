@@ -6,5 +6,4 @@
 -- users
 -- topics
 
-SELECT * FROM articles
-WHERE topic = 'cats';
+SELECT * FROM users;
