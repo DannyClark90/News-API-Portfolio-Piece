@@ -9,6 +9,7 @@ const {
   commentData,
 } = require("../db/data/test-data/index"); //Import test data to pass into seed function.
 const endPoints = require("../endpoints.json");
+const { expect } = require("@jest/globals");
 
 beforeEach(() => {
   return seed({ topicData, userData, articleData, commentData });
@@ -105,16 +106,6 @@ describe("GET /api/articles",() => {
           })
           expect(orderedDates).toBeSorted({ descending: true })
       })
-    });
-
-    it("200: Should filter the articles by topic specified in the query.", () => {
-      return request(app) // send request to app.
-        .get("/api/articles?topic=cats") //GET req to endpoint.
-        .expect(200)
-        // .then(({ body }) => {
-        //   const { catArticles } = body; //deconstruct articles from body.
-        //   expect(catArticles).toHaveLength(1); //length check
-        // });
     });
 });
 
@@ -270,5 +261,40 @@ describe("POST /api/articles/:article_id/comments",() => {
     .then( ({ body }) => {
     expect(body.msg).toBe("Bad Request")
     });
+  });
+});
+
+describe("GET /api/articles (topic query)",() => {
+  it("200: Should filter the articles by topic specified in the query.", () => {
+    return request(app) // send request to app.
+      .get("/api/articles?topic=cats") //GET req to endpoint.
+      .expect(200)
+      .then(({ body }) => {
+        const { articlesWithTopic } = body; //deconstruct articles from body.
+        expect(articlesWithTopic).toHaveLength(1); //length check
+        expect(articlesWithTopic).toEqual(
+          [
+            {
+              article_id: 5,
+              title: 'UNCOVERED: catspiracy to bring down democracy',
+              topic: 'cats',
+              author: 'rogersop',
+              body: 'Bastet walks amongst us, and the cats are taking arms!',
+              created_at: '2020-08-03T13:14:00.000Z',
+              votes: 0,
+              article_img_url: 'https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700'
+            }
+          ]
+        )
+      });
+  });
+
+  it("404: sends an 'Inexistent Topic' error message when given a valid but non-existent topic'", () => {
+    return request(app)
+    .get('/api/articles?topic=birds')
+    .expect(404)
+    .then(({ body }) => {
+      expect(body.msg).toBe("Inexistent Topic")
+    })
   });
 });

@@ -63,3 +63,22 @@ exports.selectArticleComments = (article_id) => {
     })
 };
 
+exports.selectArticlesByTopic = (topic) => {
+    return db.query(
+        `SELECT * FROM articles
+        WHERE topic = 'cats';`
+    )
+    .then(({rows}) => {return rows})
+};
+
+exports.checkTopicExists = (topic) => {
+    return db.query(
+        `SELECT * FROM topics WHERE slug = $1;`, [topic]
+    )
+    .then((topics) => {
+        if(topics.rowCount === 0){
+          return Promise.reject({ status: 404, msg: 'Inexistent Topic'})
+        }
+        return true
+    })
+};
