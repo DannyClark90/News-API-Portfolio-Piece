@@ -445,6 +445,74 @@ describe("GET /api/articles (topic query)",() => {
   });
 });
 
+describe("PATCH /api/articles/:article_id",() => {
+  it("Should icrement or decrement the article votes by the given amount and respond with the updated aricle.", () => {
+    const newVotes = { inc_votes : 5 } 
+    return request(app)
+    .patch("/api/articles/7")
+    .send(newVotes)
+    .expect(200)
+    .then(({ body }) => {
+      const { updatedArticle } = body
+      expect(updatedArticle).toMatchObject(
+        {
+          article_id: 7,
+          title: 'Z',
+          topic: 'mitch',
+          author: 'icellusedkars',
+          body: 'I was hungry.',
+          created_at: '2020-01-07T14:08:00.000Z',
+          votes: 5,
+          article_img_url: 'https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700'
+        }
+      )
+    })
+  });
+
+  it("404: responds with an 'Inexistent Article' error message when given a valid but inexistent article", () => {
+    const newVotes = { inc_votes : 5 } 
+    return request(app)
+    .patch("/api/articles/5000")
+    .send(newVotes)
+    .expect(404)
+    .then(({ body }) => {
+    expect(body.msg).toBe("Inexistent Article")
+    });
+  });
+
+  it("400: responds with a 'Bad Request' error message when given a an invalid article id", () => {
+    const newVotes = { inc_votes : 5 } 
+    return request(app)
+    .patch("/api/articles/not-an-article")
+    .send(newVotes)
+    .expect(400)
+    .then(({ body }) => {
+    expect(body.msg).toBe("Bad Request")
+    });
+  });
+
+  it("400: responds with a 'Bad Request' error message when given a value that is not a number", () => {
+    const newVotes = { inc_votes : "five" } 
+    return request(app)
+    .patch("/api/articles/7")
+    .send(newVotes)
+    .expect(400)
+    .then(({ body }) => {
+    expect(body.msg).toBe("Bad Request")
+    });
+  });
+
+  it("400: responds with a 'Required value must not be null' error message when given an empty required input.", () => { 
+    return request(app)
+    .patch("/api/articles/7")
+    .send({})
+    .expect(400)
+    .then( ({ body }) => {
+    expect(body.msg).toBe("Required value must not be null")
+    });
+  });
+});
+  
 describe("DELETE /api/comments/:comment_id",() => {
   it("204: Deletes the given comment by id", () => {
     return request(app)
