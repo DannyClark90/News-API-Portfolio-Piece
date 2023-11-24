@@ -265,7 +265,7 @@ describe("POST /api/articles/:article_id/comments",() => {
 
 describe("/api/users",() => {
     // Happy path test:
-    it.only("200: Should return an array of all users with correct properties.", () => {
+    it("200: Should return an array of all users with correct properties.", () => {
       return request(app) // send request to app.
         .get("/api/users") //GET req to endpoint.
         .expect(200)
