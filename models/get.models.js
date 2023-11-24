@@ -28,10 +28,16 @@ exports.selectArticles = () => {
     .then(({ rows }) => { return rows }); // Query result reurned on key of rows.
     };
 
-// gets all comments for a specified article & sends to controller.
+// gets a specified article with a count of its comments & sends to controller.
 exports.selectArticleById = (article_id) => {
     return db.query(
-        `SELECT * FROM articles WHERE article_id = $1;`, [article_id]
+        `SELECT articles.article_id, articles.title, articles.topic, articles.author, articles.body, articles.created_at, articles.votes, articles.article_img_url, COUNT(comments.article_id) AS comment_count
+        FROM comments
+        RIGHT JOIN articles
+        ON comments.article_id = articles.article_id
+        GROUP BY articles.article_id
+        HAVING articles.article_id = $1
+        ORDER BY article_id ASC;`, [article_id]
     )
     .then((result) => {
         if(result.rowCount === 0){

@@ -110,7 +110,7 @@ describe("GET /api/articles",() => {
 });
 
 describe("GET /api/articles/:article_id",() => {
-  it('200 sends a single article with the correct properties', () => {
+  it('200 responds with the specified article that has the correct properties including a count of comments on that article', () => {
     return request(app)
     .get('/api/articles/1')
     .expect(200)
@@ -124,8 +124,19 @@ describe("GET /api/articles/:article_id",() => {
           body: expect.any(String),
           created_at: expect.any(String),
           votes: expect.any(Number),
-          article_img_url: expect.any(String)
+          article_img_url: expect.any(String),
+          comment_count: expect.any(String)
         })
+    });
+  });
+
+  it('200 responds with the correct count of comments on the specified article id', () => {
+    return request(app)
+    .get('/api/articles/1')
+    .expect(200)
+    .then(({ body }) => {
+        const { article } = body
+          expect(article.comment_count).toBe("11")
     });
   });
 
