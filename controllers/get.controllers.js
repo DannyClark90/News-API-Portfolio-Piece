@@ -54,5 +54,5 @@ exports.getAllUsers = (req, res, next) => {
    .then((allUsers) => {
       res.status(200).send({allUsers})
    })
-   .catch(next)
+   .catch(console.log(err))
 };
