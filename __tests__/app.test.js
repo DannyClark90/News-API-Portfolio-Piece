@@ -287,7 +287,7 @@ describe("PATCH /api/articles/:article_id",() => {
     })
   });
 
-  it("404: responds with a 'Inexistent Article' error message when given a valid but inexistent article", () => {
+  it("404: responds with an 'Inexistent Article' error message when given a valid but inexistent article", () => {
     const newVotes = { inc_votes : 5 } 
     return request(app)
     .patch("/api/articles/5000")
