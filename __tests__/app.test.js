@@ -262,3 +262,23 @@ describe("POST /api/articles/:article_id/comments",() => {
     });
   });
 });
+
+describe("/api/users",() => {
+    // Happy path test:
+    it("200: Should return an array of all users with correct properties.", () => {
+      return request(app) // send request to app.
+        .get("/api/users") //GET req to endpoint.
+        .expect(200)
+        .then(({ body }) => {
+          const { allUsers } = body; //deconstruct users from body.
+          expect(allUsers).toHaveLength(4); //length check
+          allUsers.forEach((user) => {
+            expect(user).toMatchObject({
+              username: expect.any(String),
+              name: expect.any(String),
+              avatar_url: expect.any(String)
+            });
+          }); //Object property check.
+        });
+    });
+});
