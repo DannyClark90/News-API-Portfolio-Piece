@@ -19,12 +19,12 @@ app.get("/api/articles/:article_id/comments", getArticleComments) // Returns all
 
 app.post("/api/articles/:article_id/comments", postArticleComment) // Posts a comment to article matching the specified  article_id
 
-app.delete("/api/comments/:comment_id", deleteComment)
+app.delete("/api/comments/:comment_id", deleteComment) // Deletes a specified comment.
 
 app.use(handlePsqlErrors);
 app.use(handleCustomErrors);
 app.use(handleServerErrors);
 
-app.all("*", handle404Errors); // handles any invalid path requests.
+app.all("*", handle404Errors); // Handles any invalid path requests.
 
 module.exports = app; //EXPORT APP!
