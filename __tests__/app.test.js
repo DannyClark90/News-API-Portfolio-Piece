@@ -263,6 +263,32 @@ describe("POST /api/articles/:article_id/comments",() => {
   });
 });
 
+describe("DELETE /api/comments/:comment_id",() => {
+  it("204: Deletes the given comment by id", () => {
+    return request(app)
+    .delete("/api/comments/5")
+    .expect(204)
+    })
+
+    it("404: sends an 'Inexistent Comment' error message when given a valid but non-existent comment_id'", () => {
+      return request(app)
+      .delete('/api/comments/6000')
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Inexistent Comment")
+      })
+    });
+
+    it("400: sends a 'Bad Request' error message when given an invalid comment id", () => {
+      return request(app)
+      .delete("/api/comments/invalid-id")
+      .expect(400)
+      .then( ({ body }) => {
+      expect(body.msg).toBe("Bad Request")
+      });
+    })
+});
+    
 describe("/api/users",() => {
     // Happy path test:
     it("200: Should return an array of all users with correct properties.", () => {
