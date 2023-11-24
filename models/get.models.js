@@ -66,7 +66,7 @@ exports.selectArticleComments = (article_id) => {
 exports.selectArticlesByTopic = (topic) => {
     return db.query(
         `SELECT * FROM articles
-        WHERE topic = 'cats';`
+        WHERE topic = $1;`, [topic]
     )
     .then(({rows}) => {return rows})
 };
