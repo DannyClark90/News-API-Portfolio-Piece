@@ -6,7 +6,4 @@
 -- users
 -- topics
 
-DELETE FROM comments
-WHERE comment_id = 5;
-
-SELECT * FROM comments;
+SELECT * FROM users;
