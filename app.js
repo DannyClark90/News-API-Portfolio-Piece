@@ -1,10 +1,13 @@
 const express = require("express"); // Import Express.
+const cors = require('cors'); // Import CORS.
 const app = express(); // Create an instance of Expess library.
 const { getTopics, getAllEndpoints, getArticleById, getArticles, getArticleComments, getAllUsers} = require("./controllers/get.controllers"); // Import controllers.
 const { postArticleComment } = require("./controllers/post.controllers") // Import post controllers.
 const { patchArticle } = require("./controllers/patch.controllers") // Import patch controllers.
 const { deleteComment } = require("./controllers/delete.controllers") // Import delete controllers.
 const { handle404Errors, handleServerErrors, handleCustomErrors, handlePsqlErrors } = require("./errors"); // Import error handlers.
+
+app.use(cors());
 
 app.use(express.json()) // Imports json from express library (parses incoming requests)
 
